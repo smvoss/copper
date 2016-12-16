@@ -46,11 +46,15 @@ script:
     fi
 
 after_success:
+  # NOTE(cp) mdbook won't copy files without extension into the output directory
+  # We copy them manually
   - if [ $TARGET = x86_64-unknown-linux-gnu ] && [ $TRAVIS_BRANCH = master ]; then
       curl -LSfs https://japaric.github.io/trust/install.sh |
         sh -s -- --git azerupi/mdbook --tag v0.0.14 --to .;
 
       ./mdbook build;
+
+      cp src/first/config book/first/;
 
       sh ga.sh;
 

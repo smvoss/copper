@@ -10,7 +10,7 @@ And then add these files to the project:
 
 - [layout.ld](./first/layout.ld) - a "linker script"
 
-- [.cargo/config](./first/config.toml) - a project local Cargo configuration
+- [.cargo/config](./first/config) - a project local Cargo configuration
   file
 
 - [src/main.rs](./first/main.rs)
