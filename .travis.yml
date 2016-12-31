@@ -5,15 +5,11 @@ rust: nightly
 services: docker
 sudo: required
 
-env:
-  global:
-    - secure: MB4wFrTP4TgWi1ft5x+r1xqBqE68PaR5tGl+1vK34IzgS5QKdXht/iGznbqmXN2VuTWSgvrkI649BqtYs+BuLaRb2LxSwaJZ8i9Oatl1VA+jlAxfDo5BPaiL9c9muhL6xChjJ9aozQWC0TeQfgJ8ZZHGe5xJNpq11/2LLZFBjh8OGdI59SjGvyCr6o6i0/sHoc0xpP2MOPsfiIxv4iBWYsZplywBpL/FEf1rLIFc9CoA+7ZY81uFaft4KnqOz4PI4mdYYXcpZzn4K/vQk5gNg9APITZvS+kJEm6U4SyTXOBxoUZ5ccBkRW1OeAJ9gu7Ep0TACgj+mgsTZbCUDBlt/wmviyA9LujPDxWuFm7TWay4LZ+PnBE0omfLxfQpLqDnDIfWsGSJJ8rcSpIzrL6pXgNGIfuMQBujCnrY/w6oseuPwP9KSqQaQvpvNqqzzWkE4WirxxlbaMv/+uz4R+AQzxD43+dfC22jH+7hGZhplyG05fcjeyxsd3SDKkb6woRqTaba+eYMZMfKgtZJe4zd7pkYpMJuJVcFKGcU8TvSGvXK+aks8zx1u8QMIaZYdcZJV+nCObP8B3YBFc6qkL8+/wNV9r5FrrvJTMhUQACF86/ilnmM9wlwlCoR04UthES6PtngYY3UTybJ48bqyPsffOME2N3J8gsntVg/xOUVaQI=
-    - TARGET=x86_64-unknown-linux-gnu
-
 matrix:
   include:
     - env: TARGET=x86_64-apple-darwin
       os: osx
+env: TARGET=x86_64-unknown-linux-gnu
 
 install:
   - if [ $TRAVIS_BRANCH != master ]; then
