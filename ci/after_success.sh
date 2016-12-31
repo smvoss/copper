@@ -2,7 +2,12 @@ set -ex
 
 main() {
     curl -LSfs https://japaric.github.io/trust/install.sh | \
-        sh -s -- --git azerupi/mdbook --tag v0.0.14 --target $TARGET --to .
+        sh -s -- \
+           --force \
+           --git azerupi/mdbook \
+           --tag v0.0.14 \
+           --target $TARGET \
+           --to .
 
     ./mdbook build
 

@@ -11,6 +11,14 @@ main() {
     curl -LSfs http://japaric.github.io/trust/install.sh | \
         sh -s -- \
            --force \
+           --git azerupi/mdbook \
+           --tag v0.0.14 \
+           --target $TARGET \
+           --to ~/.cargo/bin
+
+    curl -LSfs http://japaric.github.io/trust/install.sh | \
+        sh -s -- \
+           --force \
            --git japaric/cross \
            --tag v0.1.2 \
            --target x86_64-unknown-linux-musl \
