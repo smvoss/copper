@@ -22,7 +22,7 @@ install:
 
 script:
   - if [ $TRAVIS_BRANCH != master ]; then
-      bash ci/script.sh
+      bash ci/script.sh;
     fi
 
 after_success:
