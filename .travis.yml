@@ -8,6 +8,7 @@ env: TARGET=x86_64-unknown-linux-gnu
 
 install:
   - sh ci/install.sh
+  - source ~/.cargo/env
 
 script:
   - bash ci/script.sh
