@@ -107,5 +107,6 @@ mod exception {
 
 mod lang_items {
     #[lang = "panic_fmt"]
+    #[no_mangle]
     extern "C" fn panic_fmt() {}
 }
