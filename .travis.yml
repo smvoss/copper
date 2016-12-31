@@ -1,52 +1,36 @@
-cache: cargo
 dist: trusty
 language: rust
 rust: nightly
 services: docker
 sudo: required
 
-matrix:
-  include:
-    - env: TARGET=x86_64-apple-darwin
-      os: osx
 env: TARGET=x86_64-unknown-linux-gnu
 
 install:
   - if [ $TRAVIS_BRANCH != master ]; then
+      sudo apt-get install --no-install-recommends -y
+        binutils-arm-none-eabi
+        linkchecker;
+
       curl https://sh.rustup.rs -sSf |
         sh -s -- -y --default-toolchain $TRAVIS_RUST_VERSION;
 
       source ~/.cargo/env;
 
-      test $TRAVIS_OS_NAME = linux || (
-        curl -LSfs https://japaric.github.io/trust/install.sh |
-          sh -s -- --force --git japaric/xargo --tag v0.2.1 &&
-        brew tap caskroom/cask &&
-        brew cask install gcc-arm-embedded
-      );
-
-      rustup component add rust-src;
+      cargo install --git https://github.com/japaric/cross -f;
     fi;
 
-
 script:
-  # chmod: Travis can't cache files that are not readable by "others"
   - if [ $TRAVIS_BRANCH != master ]; then
-      if [ $TRAVIS_OS_NAME = linux ]; then
-        sh ci/run-docker.sh $TARGET || exit 1;
-      else
-        sh ci/run.sh || exit 1;
-      fi;
-
-      chmod -R a+r $HOME/.cargo;
+      bash ci/script.sh
     fi
 
 after_success:
   # NOTE(cp) mdbook won't copy files without extension into the output directory
   # We copy them manually
-  - if [ $TARGET = x86_64-unknown-linux-gnu ] && [ $TRAVIS_BRANCH = master ]; then
+  - if [ $TRAVIS_BRANCH = master ]; then
       curl -LSfs https://japaric.github.io/trust/install.sh |
-        sh -s -- --git azerupi/mdbook --tag v0.0.14 --to .;
+        sh -s -- --git azerupi/mdbook --tag v0.0.14 --target $TARGET --to .;
 
       ./mdbook build;
 
@@ -63,6 +47,11 @@ after_success:
 
       git push -fq https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG.git gh-pages && echo OK;
     fi
+
+# chmod: Travis can't cache files that are not readable by "others"
+before_cache:
+  - chmod -R a+r $HOME/.cargo;
+cache: cargo
 
 branches:
   only:
