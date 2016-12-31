@@ -22,4 +22,6 @@ main() {
     linkchecker book
 }
 
-main
+if [ $TRAVIS_BRANCH != master ]; then
+    main
+fi

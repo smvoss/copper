@@ -7,50 +7,16 @@ sudo: required
 env: TARGET=x86_64-unknown-linux-gnu
 
 install:
-  - if [ $TRAVIS_BRANCH != master ]; then
-      sudo apt-get install --no-install-recommends -y
-        binutils-arm-none-eabi
-        linkchecker;
-
-      curl https://sh.rustup.rs -sSf |
-        sh -s -- -y --default-toolchain $TRAVIS_RUST_VERSION;
-
-      source ~/.cargo/env;
-
-      curl -LSfs http://japaric.github.io/trust/install.sh | \
-        sh -s -- --force --git japaric/cross --tag v0.1.2 --target x86_64-unknown-linux-gnu --to ~/.cargo/bin;
-    fi;
+  - sh ci/install.sh
 
 script:
-  - if [ $TRAVIS_BRANCH != master ]; then
-      bash ci/script.sh;
-    fi
+  - bash ci/script.sh
 
 after_success:
-  # NOTE(cp) mdbook won't copy files without extension into the output directory
-  # We copy them manually
-  - if [ $TRAVIS_BRANCH = master ]; then
-      curl -LSfs https://japaric.github.io/trust/install.sh |
-        sh -s -- --git azerupi/mdbook --tag v0.0.14 --target $TARGET --to .;
+  - sh ci/after_success.sh
 
-      ./mdbook build;
-
-      cp src/first/config book/first/;
-
-      sh ga.sh;
-
-      mkdir ghp-import;
-
-      curl -Ls https://github.com/davisp/ghp-import/archive/master.tar.gz |
-        tar --strip-components 1 -C ghp-import -xz;
-
-      ./ghp-import/ghp_import.py book;
-
-      git push -fq https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG.git gh-pages && echo OK;
-    fi
-
-# chmod: Travis can't cache files that are not readable by "others"
 before_cache:
+  # Travis can't cache files that are not readable by "others"
   - chmod -R a+r $HOME/.cargo;
 cache: cargo
 
