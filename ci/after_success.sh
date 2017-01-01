@@ -1,20 +1,6 @@
 set -ex
 
 main() {
-    curl -LSfs https://japaric.github.io/trust/install.sh | \
-        sh -s -- \
-           --force \
-           --git azerupi/mdbook \
-           --tag v0.0.14 \
-           --target $TARGET \
-           --to .
-
-    ./mdbook build
-
-    # NOTE mdbook won't copy files without extension into the output directory
-    # so we copy them manually
-    cp src/first/config book/first/
-
     sh ga.sh
 
     mkdir ghp-import
