@@ -3,7 +3,9 @@ set -ex
 main() {
     sudo apt-get install --no-install-recommends -y \
          binutils-arm-none-eabi \
-         linkchecker
+         python-pip
+
+    sudo pip install LinkChecker
 
     curl https://sh.rustup.rs -sSf | \
         sh -s -- -y --default-toolchain $TRAVIS_RUST_VERSION
