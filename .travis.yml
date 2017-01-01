@@ -8,7 +8,7 @@ env: TARGET=x86_64-unknown-linux-gnu
 
 install:
   - sh ci/install.sh
-  - source ~/.cargo/env
+  - source ~/.cargo/env || true
 
 script:
   - bash ci/script.sh
@@ -16,10 +16,10 @@ script:
 after_success:
   - sh ci/after_success.sh
 
+cache: cargo
 before_cache:
   # Travis can't cache files that are not readable by "others"
   - chmod -R a+r $HOME/.cargo;
-cache: cargo
 
 branches:
   only:
