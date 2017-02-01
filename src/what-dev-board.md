@@ -114,7 +114,7 @@ Or that we are sure work just fine.
 
   - Has OpenOCD and GDB support
 
-[f3]: https://crates.io/f3
+[f3]: https://crates.io/crates/f3
 
 [Discovery]: https://japaric.github.io/discovery
 
